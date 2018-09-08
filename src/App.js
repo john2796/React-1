@@ -1,29 +1,50 @@
 import React, { Component } from "react";
-import "./App.css";
+import classes from "./components/container/App.css";
 
-import Person from "./components/Person";
+import Person from "./components/Person/Person";
+import Cockpit from "./components/Cockpit/Cockpit";
+import Example from "./components/Example";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    console.log("[App.js] Inside constructor", props);
+  }
+
+  componentDidMount() {
+    console.log("[App.js] Inside componentDidMount()");
+  }
+
+  componentWillMount() {
+    console.log("[App.js] Inside componentWillMount()");
+  }
+
+  componentWillReceiveProps() {
+    console.log("update person.js Inside ComponentWill Recieve props");
+  }
+
   state = {
     persons: [
       { id: 1, name: "Janine", age: 28 },
       { id: 2, name: "Miranda", age: 22 },
-      { id: 3, name: "Hello", age: 115 },
-      { id: 4, name: "My", age: 115 },
-      { id: 5, name: "named", age: 135 },
-      { id: 6, name: "is", age: 315 },
-      { id: 7, name: "pogi", age: 152 },
-      { id: 8, name: "ako", age: 125 }
+      { id: 3, name: "Hello", age: 115 }
     ],
-    showPersons: false
+    showPersons: false,
+    on: false,
+    toggleClicked: 0
   };
 
   togglePersonHandler = () => {
     const showPersons = this.state.showPersons;
 
-    this.setState({
-      showPersons: !showPersons
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !showPersons,
+        toggleClicked: prevState.toggleClicked + 1
+      };
     });
+    console.log(this.state);
   };
 
   deletePersonsHandler = id => {
@@ -53,50 +74,34 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: "green",
-      color: "white",
-      font: "inherit",
-      border: "1px solid blue",
-      padding: "8px",
-      cursor: "pointer"
-    };
+    console.log("render");
     //toggle this person
     let person = null;
     if (this.state.showPersons) {
       person = (
         <div>
-          <p>Person name age and whatever</p>
+          <Person
+            persons={this.state.persons}
+            deleteHandler={this.deletePersonsHandler}
+            editNameHandler={this.editNameHandler}
+          />
         </div>
       );
-      style.backgroundColor = "red";
-    }
-
-    const classes = [];
-    if (this.state.persons.length <= 2) {
-      classes.push("red"); //classes = ['red']
-    }
-    if (this.state.persons.length <= 1) {
-      classes.push("bold"); // classes = ['red', 'bold']
     }
 
     return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(" ")}>This is really Working</p>
-        <button
-          style={style}
-          onClick={this.togglePersonHandler}
-          className="btn btn-primary"
-        >
-          Toggle paragraph
+      <div className={classes.App}>
+        <button onClick={() => this.setState({ on: !this.state.on })}>
+          {this.state.on === true ? `open` : `close`}
+          {this.state.on === true ? ` + ` : ` - `}
         </button>
-        {person}
-        <Person
+        <Cockpit
           persons={this.state.persons}
-          deleteHandler={this.deletePersonsHandler}
-          editNameHandler={this.editNameHandler}
+          showPerson={this.state.showPersons}
+          togglePersonHandler={this.togglePersonHandler}
         />
+        {person}
+        <Example person={this.state.person} />
       </div>
     );
   }

@@ -1,10 +1,11 @@
 import React from "react";
+import classes from "../container/Person.css";
 
 const Person = ({ persons, deleteHandler, editNameHandler }) => {
   const todoList = persons.length ? (
     persons.map((person, index) => {
       return (
-        <div className="colletion-item" key={person.id}>
+        <div key={person.id} className={classes.Person}>
           <p
             onClick={() => {
               deleteHandler(person.id);

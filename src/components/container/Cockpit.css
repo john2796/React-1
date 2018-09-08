@@ -1,0 +1,22 @@
+.red {
+  background-color: salmon;
+  color: white;
+  font-style: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.bold {
+  font-weight: bold;
+}
+.Button {
+  background-color: green;
+  color: white;
+  font-style: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 3px;
+}
